@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎉 สนุกกับเปอร์เซ็นต์ — สื่อการเรียนรู้สำหรับเด็ก</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ff6ec7; --purple:#a06bff; --blue:#4ea8ff; --cyan:#37e0d8;
+    --green:#5bd75b; --yellow:#ffd34e; --orange:#ff9d42; --red:#ff6b6b;
+    --ink:#34306b; --soft:#fff;
+    --shadow:0 10px 30px rgba(80,60,160,.18);
+    --shadow-sm:0 4px 14px rgba(80,60,160,.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Kanit','Sarabun',sans-serif;
+    color:var(--ink);
+    background:linear-gradient(135deg,#ffe1f4 0%,#e3ecff 45%,#dffaf6 100%);
+    background-attachment:fixed;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* floating bubbles bg */
+  .bubbles{position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none}
+  .bubbles span{position:absolute; bottom:-80px; border-radius:50%; opacity:.35;
+    animation:rise linear infinite}
+  @keyframes rise{to{transform:translateY(-115vh) rotate(360deg)}}
+  .wrap{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:18px 16px 60px}
+
+  /* ---- Header ---- */
+  header{text-align:center; padding:14px 0 6px}
+  .title{
+    font-weight:800; font-size:clamp(26px,6vw,46px); line-height:1.05;
+    background:linear-gradient(90deg,var(--pink),var(--purple),var(--blue),var(--cyan));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 3px 0 rgba(255,255,255,.6));
+  }
+  .subtitle{font-size:15px; color:#6a64a6; margin-top:4px; font-weight:500}
+  .mascot{font-size:clamp(48px,11vw,74px); display:inline-block; animation:bob 2.6s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+
+  /* ---- Star bar ---- */
+  .starbar{display:flex; align-items:center; justify-content:center; gap:8px; margin:10px auto 0;
+    background:#fff; border-radius:50px; padding:8px 18px; box-shadow:var(--shadow-sm); width:max-content; font-weight:600}
+  .starbar b{color:var(--orange); font-size:20px}
+
+  /* ---- Home menu cards ---- */
+  .menu{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px; margin-top:22px}
+  .card{
+    border:none; cursor:pointer; border-radius:24px; padding:22px 16px; text-align:center;
+    color:#fff; font-family:inherit; font-weight:700; font-size:17px; position:relative;
+    box-shadow:var(--shadow); transition:transform .15s, box-shadow .15s; overflow:hidden;
+  }
+  .card:hover{transform:translateY(-6px) scale(1.02); box-shadow:0 16px 36px rgba(80,60,160,.28)}
+  .card:active{transform:scale(.97)}
+  .card .ico{font-size:42px; display:block; margin-bottom:8px; filter:drop-shadow(0 3px 4px rgba(0,0,0,.15))}
+  .card small{display:block; font-weight:500; font-size:12.5px; opacity:.92; margin-top:4px}
+  .c1{background:linear-gradient(140deg,#ff8fd4,#ff5fb0)}
+  .c2{background:linear-gradient(140deg,#9b8bff,#7a5cff)}
+  .c3{background:linear-gradient(140deg,#5fb8ff,#3d86ff)}
+  .c4{background:linear-gradient(140deg,#42e0c8,#1bc2b0)}
+  .c5{background:linear-gradient(140deg,#ffc04e,#ff9326)}
+  .c6{background:linear-gradient(140deg,#76dd6e,#39c14a)}
+
+  /* ---- Screens ---- */
+  .screen{display:none; animation:pop .35s ease}
+  .screen.active{display:block}
+  @keyframes pop{from{opacity:0; transform:translateY(18px) scale(.98)}to{opacity:1; transform:none}}
+  .panel{background:#fff; border-radius:26px; padding:24px 22px; box-shadow:var(--shadow); margin-top:18px}
+  .panel h2{font-size:clamp(20px,4.5vw,28px); display:flex; align-items:center; gap:10px; margin-bottom:6px}
+  .panel .lead{color:#6a64a6; font-size:15px; line-height:1.6; margin-bottom:16px}
+
+  .backbtn{border:none; cursor:pointer; font-family:inherit; font-weight:700; font-size:15px;
+    background:#fff; color:var(--purple); border-radius:50px; padding:10px 20px; box-shadow:var(--shadow-sm);
+    display:inline-flex; align-items:center; gap:7px; transition:transform .12s}
+  .backbtn:hover{transform:translateX(-4px)}
+
+  /* ---- 100 grid ---- */
+  .grid100{display:grid; grid-template-columns:repeat(10,1fr); gap:4px; max-width:340px; margin:14px auto;
+    background:#f0eefc; padding:10px; border-radius:18px}
+  .cell{aspect-ratio:1; background:#fff; border-radius:6px; cursor:pointer; transition:.12s; box-shadow:inset 0 0 0 1px #e6e2fb}
+  .cell.on{background:linear-gradient(140deg,var(--pink),var(--purple)); box-shadow:none; transform:scale(1.04)}
+  .bigpct{text-align:center; font-size:clamp(38px,9vw,64px); font-weight:800;
+    background:linear-gradient(90deg,var(--pink),var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent; margin:6px 0}
+  .hint{text-align:center; color:#6a64a6; font-size:14px; margin-top:6px}
+
+  /* ---- Sliders & inputs ---- */
+  .row{display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:center; margin:14px 0}
+  input[type=range]{-webkit-appearance:none; appearance:none; width:min(320px,80%); height:14px; border-radius:50px;
+    background:linear-gradient(90deg,var(--cyan),var(--purple)); outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none; width:30px; height:30px; border-radius:50%;
+    background:#fff; border:4px solid var(--purple); cursor:pointer; box-shadow:0 3px 8px rgba(0,0,0,.2)}
+  input[type=range]::-moz-range-thumb{width:30px; height:30px; border-radius:50%; background:#fff; border:4px solid var(--purple); cursor:pointer}
+  .field{display:flex; flex-direction:column; gap:4px; align-items:center}
+  .field label{font-weight:600; font-size:14px; color:#6a64a6}
+  .num{width:130px; font-family:inherit; font-weight:700; font-size:22px; text-align:center; color:var(--ink);
+    border:3px solid #e6e2fb; border-radius:16px; padding:10px; outline:none; transition:.15s; background:#faf9ff}
+  .num:focus{border-color:var(--purple); background:#fff}
+
+  /* ---- Convert visual ---- */
+  .conv{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; text-align:center; margin-top:8px}
+  .conv .box{background:#faf9ff; border-radius:18px; padding:16px 10px; border:3px solid #eee9fc}
+  .conv .box .t{font-size:12px; color:#9a93c9; font-weight:600}
+  .conv .box .v{font-size:clamp(20px,5vw,30px); font-weight:800; margin-top:4px}
+  .conv .b1 .v{color:var(--pink)} .conv .b2 .v{color:var(--purple)} .conv .b3 .v{color:var(--blue)}
+  svg.pie{display:block; margin:8px auto; filter:drop-shadow(0 6px 10px rgba(120,90,200,.25))}
+
+  /* ---- Steps box ---- */
+  .steps{background:linear-gradient(135deg,#fff7fc,#f2f6ff); border-radius:18px; padding:16px 18px; margin-top:14px;
+    border:2px dashed #d9cffb}
+  .steps .st{display:flex; gap:10px; align-items:flex-start; padding:7px 0; font-size:15px; line-height:1.5}
+  .steps .st b{min-width:26px; height:26px; border-radius:50%; background:var(--purple); color:#fff;
+    display:inline-grid; place-items:center; font-size:13px; flex:none}
+  .answer{text-align:center; font-size:clamp(26px,7vw,40px); font-weight:800; margin-top:10px;
+    background:linear-gradient(90deg,var(--green),var(--cyan)); -webkit-background-clip:text; background-clip:text; color:transparent}
+
+  /* ---- progress bar (for X% of N) ---- */
+  .bar{height:42px; background:#f0eefc; border-radius:50px; overflow:hidden; margin:14px 0; position:relative}
+  .bar .fill{height:100%; width:0; border-radius:50px; background:linear-gradient(90deg,var(--orange),var(--pink));
+    transition:width .6s cubic-bezier(.3,1.3,.5,1); display:flex; align-items:center; justify-content:flex-end;
+    padding-right:14px; color:#fff; font-weight:700}
+
+  /* ---- buttons ---- */
+  .btn{border:none; cursor:pointer; font-family:inherit; font-weight:700; font-size:16px; color:#fff;
+    border-radius:50px; padding:12px 26px; box-shadow:var(--shadow-sm); transition:transform .12s, filter .12s}
+  .btn:hover{transform:translateY(-2px); filter:brightness(1.05)} .btn:active{transform:scale(.96)}
+  .btn.go{background:linear-gradient(135deg,var(--purple),var(--blue))}
+  .btn.alt{background:linear-gradient(135deg,var(--orange),var(--pink))}
+  .center{text-align:center}
+
+  /* ---- real world tabs ---- */
+  .tabs{display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:10px}
+  .tab{border:none; cursor:pointer; font-family:inherit; font-weight:600; font-size:14px; color:var(--purple);
+    background:#f0eefc; border-radius:50px; padding:9px 18px; transition:.15s}
+  .tab.on{background:linear-gradient(135deg,var(--purple),var(--blue)); color:#fff; box-shadow:var(--shadow-sm)}
+  .tool{display:none} .tool.on{display:block; animation:pop .3s ease}
+  .result-card{background:linear-gradient(135deg,#eafff3,#e7f6ff); border-radius:18px; padding:16px; margin-top:12px; text-align:center}
+  .result-card .big{font-size:clamp(24px,6vw,38px); font-weight:800; color:var(--green)}
+  .result-card .small{font-size:14px; color:#6a8; font-weight:600}
+  .priceline{font-size:15px; color:#6a64a6; margin-top:4px}
+  .priceline del{color:#c0b8e0}
+
+  /* ---- Quiz ---- */
+  .levelpick{display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:16px 0}
+  .lvl{border:none; cursor:pointer; font-family:inherit; font-weight:700; font-size:16px; color:#fff;
+    border-radius:20px; padding:18px 22px; box-shadow:var(--shadow-sm); transition:transform .14s; flex:1; min-width:120px; max-width:200px}
+  .lvl:hover{transform:translateY(-4px)} .lvl small{display:block; font-weight:500; font-size:12px; opacity:.92; margin-top:4px}
+  .lvl.e{background:linear-gradient(140deg,#76dd6e,#39c14a)}
+  .lvl.m{background:linear-gradient(140deg,#ffc04e,#ff9326)}
+  .lvl.h{background:linear-gradient(140deg,#ff8f8f,#ff5f5f)}
+
+  .qhead{display:flex; justify-content:space-between; align-items:center; font-weight:700; color:#6a64a6; margin-bottom:6px; font-size:14px}
+  .qprog{height:10px; background:#f0eefc; border-radius:50px; overflow:hidden; margin-bottom:14px}
+  .qprog i{display:block; height:100%; background:linear-gradient(90deg,var(--cyan),var(--purple)); transition:width .3s}
+  .question{font-size:clamp(20px,5vw,28px); font-weight:700; text-align:center; margin:10px 0 18px; line-height:1.4}
+  .choices{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .choice{border:3px solid #e6e2fb; background:#faf9ff; cursor:pointer; font-family:inherit; font-weight:700;
+    font-size:22px; color:var(--ink); border-radius:18px; padding:18px; transition:.12s}
+  .choice:hover{border-color:var(--purple); transform:translateY(-2px)}
+  .choice.correct{background:linear-gradient(135deg,#5bd75b,#37e0d8); color:#fff; border-color:transparent; animation:pulse .4s}
+  .choice.wrong{background:linear-gradient(135deg,#ff8f8f,#ff5f5f); color:#fff; border-color:transparent; animation:shake .4s}
+  .choice:disabled{cursor:default}
+  @keyframes pulse{50%{transform:scale(1.08)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .feedback{text-align:center; font-size:20px; font-weight:700; margin-top:16px; min-height:30px}
+  .scorebig{text-align:center; padding:10px}
+  .scorebig .stars{font-size:54px; letter-spacing:6px}
+  .scorebig .msg{font-size:clamp(22px,5vw,30px); font-weight:800; margin:10px 0;
+    background:linear-gradient(90deg,var(--pink),var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .scorebig .detail{color:#6a64a6; font-size:16px}
+
+  /* confetti */
+  .confetti{position:fixed; top:-10px; width:10px; height:16px; z-index:99; pointer-events:none; border-radius:2px}
+  @keyframes fall{to{transform:translateY(105vh) rotate(720deg); opacity:0}}
+
+  footer{text-align:center; color:#9a93c9; font-size:12.5px; margin-top:30px; line-height:1.7}
+</style>
+</head>
+<body>
+<div class="bubbles" id="bubbles"></div>
+<div class="wrap">
+
+  <!-- ================= HOME ================= -->
+  <header>
+    <div class="mascot" id="mascot">🦊</div>
+    <div class="title">สนุกกับเปอร์เซ็นต์</div>
+    <div class="subtitle">เรียนรู้ % แบบง่าย ๆ สำหรับนักเรียนชั้นประถม 🌈</div>
+    <div class="starbar">⭐ ดาวสะสม: <b id="totalStars">0</b></div>
+  </header>
+
+  <div class="screen active" id="home">
+    <div class="menu">
+      <button class="card c1" onclick="go('s1')"><span class="ico">🔢</span>เปอร์เซ็นต์คืออะไร<small>เริ่มต้นจากศูนย์</small></button>
+      <button class="card c2" onclick="go('s2')"><span class="ico">🔄</span>% เศษส่วน ทศนิยม<small>ของสิ่งเดียวกัน</small></button>
+      <button class="card c3" onclick="go('s3')"><span class="ico">🍕</span>หา % ของจำนวน<small>20% ของ 50 = ?</small></button>
+      <button class="card c4" onclick="go('s4')"><span class="ico">🧮</span>คิดเป็นกี่ %<small>15 จาก 20 = ?%</small></button>
+      <button class="card c5" onclick="go('s5')"><span class="ico">🛒</span>ใช้ในชีวิตจริง<small>ส่วนลด ภาษี คะแนน</small></button>
+      <button class="card c6" onclick="go('s6')"><span class="ico">🎮</span>เกมฝึกสมอง<small>ทำโจทย์ เก็บดาว!</small></button>
+    </div>
+  </div>
+
+  <!-- ================= S1 : What is percent ================= -->
+  <div class="screen" id="s1">
+    <button class="backbtn" onclick="home()">⬅️ กลับหน้าหลัก</button>
+    <div class="panel">
+      <h2>🔢 เปอร์เซ็นต์คืออะไร?</h2>
+      <p class="lead">เปอร์เซ็นต์ (%) แปลว่า <b>"ต่อ 100"</b> — ลองนึกถึงช็อกโกแลตแท่งใหญ่ที่แบ่งเป็น 100 ชิ้นเท่า ๆ กัน
+        ถ้าเรากิน 25 ชิ้น ก็คือกินไป <b>25%</b> นั่นเอง! ลองแตะช่องดูสิ 👇</p>
+      <div class="bigpct"><span id="g1pct">0</span>%</div>
+      <div class="grid100" id="grid100"></div>
+      <div class="row">
+        <input type="range" id="g1slider" min="0" max="100" value="0">
+      </div>
+      <p class="hint">เลื่อนแถบ หรือแตะช่องเอง — ระบายครบ 100 ช่อง = 100% = ทั้งหมด 🎉</p>
+    </div>
+  </div>
+
+  <!-- ================= S2 : conversions ================= -->
+  <div class="screen" id="s2">
+    <button class="backbtn" onclick="home()">⬅️ กลับหน้าหลัก</button>
+    <div class="panel">
+      <h2>🔄 % เศษส่วน และทศนิยม</h2>
+      <p class="lead">เลขสามแบบนี้คือ "ของสิ่งเดียวกัน" แค่เขียนคนละหน้าตา
+        ลองเลื่อนแถบดูว่ามันเปลี่ยนพร้อมกันอย่างไร 🌟</p>
+      <svg class="pie" id="pie" width="170" height="170" viewBox="0 0 36 36"></svg>
+      <div class="conv">
+        <div class="box b1"><div class="t">เปอร์เซ็นต์</div><div class="v"><span id="cv-pct">50</span>%</div></div>
+        <div class="box b2"><div class="t">เศษส่วน</div><div class="v" id="cv-frac">1/2</div></div>
+        <div class="box b3"><div class="t">ทศนิยม</div><div class="v" id="cv-dec">0.5</div></div>
+      </div>
+      <div class="row"><input type="range" id="cvslider" min="0" max="100" value="50"></div>
+      <p class="hint">เคล็ดลับ: หาร % ด้วย 100 จะได้ทศนิยม เช่น 50 ÷ 100 = 0.5 ✨</p>
+    </div>
+  </div>
+
+  <!-- ================= S3 : X% of N ================= -->
+  <div class="screen" id="s3">
+    <button class="backbtn" onclick="home()">⬅️ กลับหน้าหลัก</button>
+    <div class="panel">
+      <h2>🍕 หา % ของจำนวน</h2>
+      <p class="lead">อยากรู้ว่า <b>กี่เปอร์เซ็นต์ ของจำนวนหนึ่ง</b> เป็นเท่าไหร่? ใส่ตัวเลขแล้วกดดูวิธีคิดได้เลย!</p>
+      <div class="row">
+        <div class="field"><label>กี่เปอร์เซ็นต์ (%)</label><input class="num" id="s3pct" type="number" value="20" min="0"></div>
+        <div class="field"><label>ของจำนวน</label><input class="num" id="s3num" type="number" value="50" min="0"></div>
+      </div>
+      <div class="center"><button class="btn go" onclick="calcS3()">คิดเลย! ✨</button></div>
+      <div class="bar"><div class="fill" id="s3bar"></div></div>
+      <div class="steps" id="s3steps"></div>
+      <div class="answer" id="s3ans"></div>
+    </div>
+  </div>
+
+  <!-- ================= S4 : A is what % of B ================= -->
+  <div class="screen" id="s4">
+    <button class="backbtn" onclick="home()">⬅️ กลับหน้าหลัก</button>
+    <div class="panel">
+      <h2>🧮 คิดเป็นกี่เปอร์เซ็นต์</h2>
+      <p class="lead">ได้คะแนน 15 จาก 20 คิดเป็นกี่ %? แบบนี้คือ <b>หาว่าส่วนหนึ่งเป็นกี่ % ของทั้งหมด</b></p>
+      <div class="row">
+        <div class="field"><label>จำนวนที่ได้</label><input class="num" id="s4part" type="number" value="15" min="0"></div>
+        <div class="field"><label>จากทั้งหมด</label><input class="num" id="s4whole" type="number" value="20" min="1"></div>
+      </div>
+      <div class="center"><button class="btn alt" onclick="calcS4()">คิดเลย! ✨</button></div>
+      <div class="bar"><div class="fill" id="s4bar"></div></div>
+      <div class="steps" id="s4steps"></div>
+      <div class="answer" id="s4ans"></div>
+    </div>
+  </div>
+
+  <!-- ================= S5 : real world ================= -->
+  <div class="screen" id="s5">
+    <button class="backbtn" onclick="home()">⬅️ กลับหน้าหลัก</button>
+    <div class="panel">
+      <h2>🛒 เปอร์เซ็นต์ในชีวิตจริง</h2>
+      <p class="lead">เปอร์เซ็นต์อยู่รอบตัวเรา! ลองเลือกสถานการณ์แล้วเล่นกับตัวเลขดู 🎯</p>
+      <div class="tabs">
+        <button class="tab on" onclick="rwTab('discount',this)">🏷️ ส่วนลด</button>
+        <button class="tab" onclick="rwTab('score',this)">📚 คะแนนสอบ</button>
+        <button class="tab" onclick="rwTab('tip',this)">🍰 เพิ่มขึ้น</button>
+      </div>
+
+      <div class="tool on" id="t-discount">
+        <div class="row">
+          <div class="field"><label>ราคาเต็ม (บาท)</label><input class="num" id="d-price" type="number" value="500" min="0"></div>
+          <div class="field"><label>ลด (%)</label><input class="num" id="d-pct" type="number" value="20" min="0" max="100"></div>
+        </div>
+        <div class="center"><button class="btn go" onclick="calcDiscount()">คิดราคา 🛍️</button></div>
+        <div class="result-card" id="d-result" style="display:none"></div>
+      </div>
+
+      <div class="tool" id="t-score">
+        <div class="row">
+          <div class="field"><label>ทำได้ (ข้อ)</label><input class="num" id="sc-part" type="number" value="18" min="0"></div>
+          <div class="field"><label>เต็ม (ข้อ)</label><input class="num" id="sc-whole" type="number" value="20" min="1"></div>
+        </div>
+        <div class="center"><button class="btn go" onclick="calcScore()">ดูคะแนน 📊</button></div>
+        <div class="result-card" id="sc-result" style="display:none"></div>
+      </div>
+
+      <div class="tool" id="t-tip">
+        <div class="row">
+          <div class="field"><label>จำนวนเริ่มต้น</label><input class="num" id="tp-base" type="number" value="200" min="0"></div>
+          <div class="field"><label>เพิ่มขึ้น (%)</label><input class="num" id="tp-pct" type="number" value="10" min="0"></div>
+        </div>
+        <div class="center"><button class="btn go" onclick="calcTip()">คิดผลรวม ➕</button></div>
+        <div class="result-card" id="tp-result" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= S6 : Game ================= -->
+  <div class="screen" id="s6">
+    <button class="backbtn" onclick="home()">⬅️ กลับหน้าหลัก</button>
+    <div class="panel" id="game-menu">
+      <h2>🎮 เกมฝึกสมอง</h2>
+      <p class="lead">เลือกระดับความยาก ทำโจทย์ 5 ข้อ แล้วเก็บดาวให้ได้เยอะที่สุด! 🌟</p>
+      <div class="levelpick">
+        <button class="lvl e" onclick="startGame('easy')">😀 ง่าย<small>% พื้นฐาน</small></button>
+        <button class="lvl m" onclick="startGame('medium')">🤔 ปานกลาง<small>หา % ของจำนวน</small></button>
+        <button class="lvl h" onclick="startGame('hard')">🔥 ใช้งานจริง<small>ส่วนลด คะแนน</small></button>
+      </div>
+    </div>
+
+    <div class="panel" id="game-play" style="display:none">
+      <div class="qhead"><span id="q-count">ข้อ 1 / 5</span><span>คะแนน: <span id="q-score">0</span> ⭐</span></div>
+      <div class="qprog"><i id="q-prog" style="width:0%"></i></div>
+      <div class="question" id="q-text">...</div>
+      <div class="choices" id="q-choices"></div>
+      <div class="feedback" id="q-fb"></div>
+    </div>
+
+    <div class="panel" id="game-end" style="display:none">
+      <div class="scorebig">
+        <div class="stars" id="e-stars">⭐⭐⭐</div>
+        <div class="msg" id="e-msg">เก่งมาก!</div>
+        <div class="detail" id="e-detail">ทำถูก 5 จาก 5 ข้อ</div>
+        <div class="center" style="margin-top:18px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap">
+          <button class="btn go" onclick="backToGameMenu()">🔁 เล่นอีกครั้ง</button>
+          <button class="btn alt" onclick="home()">🏠 หน้าหลัก</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    🦊 สื่อการเรียนรู้ "สนุกกับเปอร์เซ็นต์" · เปิดได้ทุกอุปกรณ์ ไม่ต้องต่อเน็ตก็เล่นได้<br>
+    สร้างเพื่อการเรียนการสอน · แชร์ต่อได้อย่างอิสระ 💛
+  </footer>
+</div>
+
+<script>
+/* ============ helpers ============ */
+const $ = id => document.getElementById(id);
+let totalStars = 0;
+function addStars(n){ totalStars += n; $('totalStars').textContent = totalStars; }
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function home(){ go('home'); }
+
+/* mascot reacts on click */
+const moods = ['🦊','😺','🐰','🐼','🐯','🦁','🐨'];
+$('mascot').onclick = ()=>{ $('mascot').textContent = moods[Math.floor(Math.random()*moods.length)]; };
+
+/* ============ background bubbles ============ */
+(function(){
+  const colors=['#ff8fd4','#9b8bff','#5fb8ff','#42e0c8','#ffc04e','#76dd6e'];
+  const box=$('bubbles');
+  for(let i=0;i<14;i++){
+    const s=document.createElement('span');
+    const size=20+Math.random()*60;
+    s.style.width=s.style.height=size+'px';
+    s.style.left=Math.random()*100+'%';
+    s.style.background=colors[i%colors.length];
+    s.style.animationDuration=(10+Math.random()*16)+'s';
+    s.style.animationDelay=(-Math.random()*16)+'s';
+    box.appendChild(s);
+  }
+})();
+
+/* ============ S1 : 100 grid ============ */
+const grid = $('grid100');
+let g1cells=[];
+for(let i=0;i<100;i++){
+  const c=document.createElement('div');
+  c.className='cell';
+  c.onclick=()=>{ setGrid(i+1); };
+  grid.appendChild(c); g1cells.push(c);
+}
+function setGrid(n){
+  n=Math.max(0,Math.min(100,n));
+  g1cells.forEach((c,idx)=> c.classList.toggle('on', idx<n));
+  $('g1pct').textContent=n;
+  $('g1slider').value=n;
+}
+$('g1slider').oninput=e=>setGrid(+e.target.value);
+setGrid(0);
+
+/* ============ S2 : conversions + pie ============ */
+function gcd(a,b){ return b? gcd(b,a%b) : a; }
+function fracStr(p){
+  if(p===0) return '0';
+  if(p===100) return '1';
+  let num=p, den=100, g=gcd(num,den);
+  return (num/g)+'/'+(den/g);
+}
+function drawPie(p){
+  const r=15.9155, c=2*Math.PI*r;
+  const svg=$('pie');
+  svg.innerHTML=`
+    <circle cx="18" cy="18" r="${r}" fill="none" stroke="#eee9fc" stroke-width="5"></circle>
+    <circle cx="18" cy="18" r="${r}" fill="none" stroke="url(#pg)" stroke-width="5"
+      stroke-dasharray="${(p/100*c).toFixed(2)} ${c.toFixed(2)}" stroke-linecap="round"
+      transform="rotate(-90 18 18)"></circle>
+    <text x="18" y="20.5" text-anchor="middle" font-size="8" font-weight="800" fill="#7a5cff">${p}%</text>
+    <defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff6ec7"/><stop offset="100%" stop-color="#7a5cff"/></linearGradient></defs>`;
+}
+function updateConv(p){
+  $('cv-pct').textContent=p;
+  $('cv-frac').textContent=fracStr(p);
+  $('cv-dec').textContent=(p/100).toFixed(2).replace(/\.?0+$/,'')||'0';
+  if(p/100===Math.round(p/100)) $('cv-dec').textContent=(p/100).toString();
+  drawPie(p);
+}
+$('cvslider').oninput=e=>updateConv(+e.target.value);
+updateConv(50);
+
+/* ============ S3 : X% of N ============ */
+function calcS3(){
+  const p=+$('s3pct').value||0, n=+$('s3num').value||0;
+  const res=p/100*n;
+  $('s3steps').innerHTML=`
+    <div class="st"><b>1</b><span>เปลี่ยน ${p}% เป็นทศนิยม: ${p} ÷ 100 = <b>${p/100}</b></span></div>
+    <div class="st"><b>2</b><span>คูณกับจำนวน: ${p/100} × ${n} = <b>${round(res)}</b></span></div>
+    <div class="st"><b>3</b><span>ดังนั้น ${p}% ของ ${n} เท่ากับ ${round(res)} 🎉</span></div>`;
+  $('s3ans').textContent=`= ${round(res)}`;
+  $('s3bar').style.width=Math.min(100,p)+'%';
+  $('s3bar').textContent = p+'%';
+  pop($('s3ans'));
+}
+
+/* ============ S4 : A is what % of B ============ */
+function calcS4(){
+  const a=+$('s4part').value||0, b=+$('s4whole').value||1;
+  const res=a/b*100;
+  $('s4steps').innerHTML=`
+    <div class="st"><b>1</b><span>เอาส่วนที่ได้ หารด้วยทั้งหมด: ${a} ÷ ${b} = <b>${round(a/b)}</b></span></div>
+    <div class="st"><b>2</b><span>คูณด้วย 100 เพื่อทำเป็น %: ${round(a/b)} × 100 = <b>${round(res)}</b></span></div>
+    <div class="st"><b>3</b><span>${a} จาก ${b} คิดเป็น ${round(res)}% 🎉</span></div>`;
+  $('s4ans').textContent=`= ${round(res)}%`;
+  $('s4bar').style.width=Math.min(100,res)+'%';
+  $('s4bar').textContent=round(res)+'%';
+  pop($('s4ans'));
+}
+
+function round(x){ return Math.round(x*100)/100; }
+function pop(el){ el.style.animation='none'; void el.offsetWidth; el.style.animation='pop .4s ease'; }
+
+/* ============ S5 : real world ============ */
+function rwTab(name,btn){
+  document.querySelectorAll('#s5 .tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('#s5 .tool').forEach(t=>t.classList.remove('on'));
+  $('t-'+name).classList.add('on');
+}
+function calcDiscount(){
+  const price=+$('d-price').value||0, pct=+$('d-pct').value||0;
+  const save=price*pct/100, pay=price-save;
+  const el=$('d-result'); el.style.display='block';
+  el.innerHTML=`<div class="big">จ่ายเพียง ${round(pay)} บาท 🎉</div>
+    <div class="priceline"><del>${price} บาท</del> → ประหยัดไป <b>${round(save)} บาท</b></div>
+    <div class="small">ลด ${pct}% หมายถึง ${pct} บาทจากทุก ๆ 100 บาท</div>`;
+  pop(el);
+}
+function calcScore(){
+  const part=+$('sc-part').value||0, whole=+$('sc-whole').value||1;
+  const pct=part/whole*100;
+  let grade='ผ่าน', emo='👍';
+  if(pct>=80){grade='ยอดเยี่ยม';emo='🏆'} else if(pct>=70){grade='ดีมาก';emo='😄'}
+  else if(pct>=50){grade='พอใช้';emo='🙂'} else {grade='ต้องฝึกเพิ่ม';emo='💪'}
+  const el=$('sc-result'); el.style.display='block';
+  el.innerHTML=`<div class="big">${round(pct)}% ${emo}</div>
+    <div class="small">ทำได้ ${part} จาก ${whole} ข้อ — ${grade}</div>`;
+  pop(el);
+}
+function calcTip(){
+  const base=+$('tp-base').value||0, pct=+$('tp-pct').value||0;
+  const add=base*pct/100, total=base+add;
+  const el=$('tp-result'); el.style.display='block';
+  el.innerHTML=`<div class="big">รวมเป็น ${round(total)} 🎉</div>
+    <div class="small">เริ่มต้น ${base} เพิ่มอีก ${pct}% (${round(add)}) = ${round(total)}</div>`;
+  pop(el);
+}
+
+/* ============ S6 : Quiz Game ============ */
+let game={qs:[],idx:0,score:0,level:'easy'};
+
+function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
+function makeChoices(correct, spread){
+  const set=new Set([correct]);
+  while(set.size<4){
+    let d=correct + randInt(-spread,spread);
+    if(d<0) d=Math.abs(d)+1;
+    set.add(d);
+  }
+  return shuffle([...set]);
+}
+
+function genEasy(){
+  // percent of 100-grid style: "X จาก 100 คือกี่ %" or "Y% ของ 100"
+  const t=randInt(0,1);
+  if(t===0){
+    const x=randInt(1,9)*10;
+    return {q:`ระบายไป ${x} ช่อง จาก 100 ช่อง คิดเป็นกี่เปอร์เซ็นต์?`, a:x, c:makeChoices(x,20), unit:'%'};
+  } else {
+    const p=randInt(1,9)*10;
+    return {q:`${p}% ของ 100 เท่ากับเท่าไหร่?`, a:p, c:makeChoices(p,20), unit:''};
+  }
+}
+function genMedium(){
+  const p=[10,20,25,50][randInt(0,3)];
+  const n=randInt(2,20)*10;
+  const a=Math.round(p/100*n);
+  return {q:`${p}% ของ ${n} เท่ากับเท่าไหร่?`, a:a, c:makeChoices(a,Math.max(5,Math.round(a*0.4))), unit:''};
+}
+function genHard(){
+  const t=randInt(0,1);
+  if(t===0){
+    const price=randInt(2,10)*100;
+    const pct=[10,20,25,50][randInt(0,3)];
+    const pay=Math.round(price-price*pct/100);
+    return {q:`ของราคา ${price} บาท ลด ${pct}% ต้องจ่ายกี่บาท?`, a:pay, c:makeChoices(pay,Math.round(price*0.2)), unit:' บาท'};
+  } else {
+    const whole=[20,25,50][randInt(0,2)];
+    const part=randInt(1,whole);
+    const a=Math.round(part/whole*100);
+    return {q:`ทำข้อสอบได้ ${part} จาก ${whole} ข้อ คิดเป็นกี่เปอร์เซ็นต์?`, a:a, c:makeChoices(a,15), unit:'%'};
+  }
+}
+
+function startGame(level){
+  game={qs:[],idx:0,score:0,level};
+  const gen = level==='easy'?genEasy : level==='medium'?genMedium : genHard;
+  for(let i=0;i<5;i++) game.qs.push(gen());
+  $('game-menu').style.display='none';
+  $('game-end').style.display='none';
+  $('game-play').style.display='block';
+  showQ();
+}
+function showQ(){
+  const q=game.qs[game.idx];
+  $('q-count').textContent=`ข้อ ${game.idx+1} / 5`;
+  $('q-score').textContent=game.score;
+  $('q-prog').style.width=(game.idx/5*100)+'%';
+  $('q-text').textContent=q.q;
+  $('q-fb').textContent='';
+  const box=$('q-choices'); box.innerHTML='';
+  q.c.forEach(val=>{
+    const b=document.createElement('button');
+    b.className='choice'; b.textContent=val+q.unit;
+    b.onclick=()=>answer(b,val,q);
+    box.appendChild(b);
+  });
+}
+function answer(btn,val,q){
+  document.querySelectorAll('#q-choices .choice').forEach(b=>b.disabled=true);
+  if(val===q.a){
+    btn.classList.add('correct');
+    game.score++; $('q-score').textContent=game.score;
+    $('q-fb').textContent='✅ ถูกต้อง เก่งมาก!'; $('q-fb').style.color='#39c14a';
+    miniConfetti();
+  } else {
+    btn.classList.add('wrong');
+    $('q-fb').innerHTML=`❌ ยังไม่ถูกนะ คำตอบคือ <b>${q.a}${q.unit}</b>`; $('q-fb').style.color='#ff5f5f';
+    document.querySelectorAll('#q-choices .choice').forEach(b=>{
+      if(b.textContent===q.a+q.unit) b.classList.add('correct');
+    });
+  }
+  setTimeout(nextQ,1500);
+}
+function nextQ(){
+  game.idx++;
+  if(game.idx>=5){ endGame(); }
+  else showQ();
+}
+function endGame(){
+  $('game-play').style.display='none';
+  $('game-end').style.display='block';
+  const s=game.score;
+  const starN = s>=5?3 : s>=3?2 : s>=1?1 : 0;
+  $('e-stars').textContent = '⭐'.repeat(starN)+'☆'.repeat(3-starN);
+  const msgs=['ลองใหม่อีกครั้งนะ 💪','เริ่มได้ดี! 🙂','เก่งมาก! 😄','สุดยอดไปเลย! 🏆'];
+  $('e-msg').textContent = msgs[starN];
+  $('e-detail').textContent = `ทำถูก ${s} จาก 5 ข้อ`;
+  addStars(starN);
+  if(starN>=2) bigConfetti();
+}
+function backToGameMenu(){
+  $('game-end').style.display='none';
+  $('game-play').style.display='none';
+  $('game-menu').style.display='block';
+}
+
+/* ============ confetti ============ */
+function spawnConfetti(count){
+  const colors=['#ff6ec7','#a06bff','#4ea8ff','#37e0d8','#5bd75b','#ffd34e','#ff9d42'];
+  for(let i=0;i<count;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=colors[Math.floor(Math.random()*colors.length)];
+    c.style.animation=`fall ${1.5+Math.random()*1.5}s ease-in forwards`;
+    c.style.animationDelay=(Math.random()*0.3)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3200);
+  }
+}
+function miniConfetti(){ spawnConfetti(14); }
+function bigConfetti(){ spawnConfetti(60); }
+</script>
+</body>
+</html>

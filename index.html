@@ -180,6 +180,8 @@
   @keyframes fall{to{transform:translateY(105vh) rotate(720deg); opacity:0}}
 
   footer{text-align:center; color:#9a93c9; font-size:12.5px; margin-top:30px; line-height:1.7}
+  .bridge{display:block; margin-top:14px; background:#eef7ff; border:2px dashed #7fb6ff; border-radius:14px; padding:10px 14px; font-size:14.5px; line-height:1.55; color:#2b5fa8; text-decoration:none}
+  .bridge:hover{background:#e2f0ff}
 </style>
 </head>
 <body>
@@ -270,6 +272,7 @@
       <div class="bar"><div class="fill" id="s4bar"></div></div>
       <div class="steps" id="s4steps"></div>
       <div class="answer" id="s4ans"></div>
+      <a class="bridge" href="../equation/#fr-p3" target="_blank" rel="noopener">🧮 ต่อยอด: ถ้าโจทย์บอก % และบอกส่วน แต่<b>ไม่บอกทั้งหมด</b> เช่น "ขายไปแล้ว 25% คือ 30 ต้น ตอนแรกมีกี่ต้น" → ใช้สมการช่วย · แอป <b>สมการง่ายนิดเดียว</b> บทแบ่งของ ↗</a>
     </div>
   </div>
 
@@ -628,6 +631,8 @@ function spawnConfetti(count){
 }
 function miniConfetti(){ spawnConfetti(14); }
 function bigConfetti(){ spawnConfetti(60); }
+// ลิงก์ตรงเข้าบท: index.html#ชื่อบท (ใช้ทำลิงก์ข้ามแอป)
+{ const h=decodeURIComponent(location.hash.slice(1)); if(h&&$(h)&&$(h).classList.contains('screen')) go(h); }
 </script>
 </body>
 </html>
